@@ -7,6 +7,7 @@ import { registerIntercepts, setAuthHeaders } from "apis/axios";
 
 import Dashboard from "components/Dashboard";
 import CreateTask from "components/Tasks/CreateTask";
+import ShowTask from "components/Tasks/ShowTask";
 import PageLoader from "components/PageLoader";
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
       <Switch>
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/tasks/create" component={CreateTask} />
+        <Route exact path="/tasks/:slug/show" component={ShowTask} />
       </Switch>
     </Router>
   );
