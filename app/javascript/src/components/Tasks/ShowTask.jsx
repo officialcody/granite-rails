@@ -15,7 +15,7 @@ const ShowTask = () => {
       const response = await tasksApi.show(slug);
       setTaskDetails(response.data.task);
     } catch (error) {
-      logger.error(error);
+      // logger.error(error);
     } finally {
       setPageLoading(false);
     }
