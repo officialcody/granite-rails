@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import { initializeLogger } from "common/logger";
-import { setAuthHeaders } from "apis/axios";
+import { ToastContainer } from "react-toastify";
 
-import CreateTask from "components/Tasks/CreateTask";
+import { initializeLogger } from "common/logger";
+import { registerIntercepts, setAuthHeaders } from "apis/axios";
+
 import Dashboard from "components/Dashboard";
+import CreateTask from "components/Tasks/CreateTask";
+import PageLoader from "components/PageLoader";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     initializeLogger();
+    registerIntercepts();
     setAuthHeaders(setLoading);
   }, []);
 
+  if (loading) {
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
+  }
+
   return (
     <Router>
+      <ToastContainer />
       <Switch>
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/tasks/create" component={CreateTask} />
