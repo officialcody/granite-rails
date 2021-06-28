@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :load_task, only: [:show]
+  before_action :load_task, only: %i[show update]
 
   def show
     render status: :ok, json: { task: @task }
@@ -17,6 +17,14 @@ class TasksController < ApplicationController
     else
       errors = task.errors.full_messages
       render status: :unprocessable_entity, json: { errors: errors  }
+    end
+  end
+
+  def update
+    if @task.update(task_params)
+      render status: :ok, json: { notice: 'Successfully updated task.' }
+    else
+      render status: :unprocessable_entity, json: { errors: @task.errors.full_messages }
     end
   end
 
