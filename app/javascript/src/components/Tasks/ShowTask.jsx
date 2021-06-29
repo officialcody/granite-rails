@@ -19,7 +19,7 @@ const ShowTask = () => {
       setAssignedUser(response.data.assigned_user);
       setTaskCreator(response.data.task_creator);
     } catch (error) {
-      // logger.error(error);
+      logger.error(error);
     } finally {
       setPageLoading(false);
     }
