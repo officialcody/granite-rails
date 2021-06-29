@@ -1,5 +1,7 @@
 import React from "react";
 import NavItem from "./NavItem";
+import authApi from "apis/auth";
+import { resetAuthTokens } from "apis/axios";
 import { getFromLocalStorage, setToLocalStorage } from "helpers/storage";
 
 const NavBar = () => {
@@ -27,7 +29,7 @@ const NavBar = () => {
         <div className="flex justify-between h-16">
           <div className="flex px-2 lg:px-0">
             <div className="hidden lg:flex">
-              <NavItem name="Todos" path="/dashboard" />
+              <NavItem name="Todos" path="/" />
               <NavItem
                 name="Create"
                 iconClass="ri-add-fill"

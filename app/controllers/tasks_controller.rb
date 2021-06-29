@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   before_action :load_task, only: %i[show update destroy]
 
   def show
-    task_creator = User.find(@task.user_id).name
+    task_creator = User.find(@task.creator_id).name
     render status: :ok, json: { task: @task, assigned_user: @task.user, task_creator: task_creator }
   end
 
@@ -48,6 +48,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title)
+    params.require(:task).permit(:title, :user_id)
   end
 end
