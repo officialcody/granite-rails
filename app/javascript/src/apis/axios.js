@@ -1,5 +1,6 @@
 import axios from "axios";
 import Toastr from "components/Common/Toastr";
+import { setToLocalStorage } from "helpers/storage";
 
 axios.defaults.baseURL = "/";
 
