@@ -1,35 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { all, isNil, isEmpty, either } from "ramda";
 
-import { setAuthHeaders } from "apis/axios";
-
-import PageLoader from "components/PageLoader";
+import tasksApi from "apis/tasks";
 import Container from "components/Container";
+import PageLoader from "components/PageLoader";
 import Table from "components/Tasks/Table/index";
 
-import tasksApi from "apis/tasks";
-
 const Dashboard = ({ history }) => {
-  const [tasks, setTasks] = useState([]);
   const [pendingTasks, setPendingTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const showTask = slug => {
-    history.push(`/tasks/${slug}/show`);
-  };
-
-  const updateTask = slug => {
-    history.push(`/tasks/${slug}/edit`);
-  };
-
   const fetchTasks = async () => {
     try {
-      setAuthHeaders();
       const response = await tasksApi.list();
-      const { pending, completed } = response.data.tasks;
-      setPendingTasks(pending);
-      setCompletedTasks(completed);
+      setPendingTasks(response.data.tasks.pending);
+      setCompletedTasks(response.data.tasks.completed);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -43,14 +29,29 @@ const Dashboard = ({ history }) => {
       await fetchTasks();
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
   const destroyTask = async slug => {
     try {
       await tasksApi.destroy(slug);
+      await fetchTasks();
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const showTask = slug => {
+    history.push(`/tasks/${slug}/show`);
+  };
+
+  const starTask = async (slug, status) => {
+    try {
+      const toggledStatus = status === "starred" ? "unstarred" : "starred";
+      await tasksApi.update({
+        slug,
+        payload: { task: { status: toggledStatus } },
+      });
       await fetchTasks();
     } catch (error) {
       logger.error(error);
@@ -87,6 +88,7 @@ const Dashboard = ({ history }) => {
           destroyTask={destroyTask}
           showTask={showTask}
           handleProgressToggle={handleProgressToggle}
+          starTask={starTask}
         />
       )}
       {!either(isNil, isEmpty)(completedTasks) && (
