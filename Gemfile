@@ -54,3 +54,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'react-rails'
 
 gem "pundit"
+gem 'bundler-audit', require: false
+gem 'ruby_audit', require: false
