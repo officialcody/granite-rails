@@ -3,7 +3,8 @@ require "sidekiq/testing"
 
 class TaskLoggerJobTest < ActiveJob::TestCase
   def setup
-    @task = Task.create!(title: 'test')
+    @user = User.create!(name: "Sparsh", email: "sparsh@gmail.com", password: '123456', password_confirmation: '123456')
+    @task = Task.create!(title: 'test', user: @user)
   end
 
   test 'logger runs once after creating a new task' do
