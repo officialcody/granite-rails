@@ -57,3 +57,9 @@ gem "pundit"
 gem 'bundler-audit', require: false
 gem 'ruby_audit', require: false
 gem "sidekiq"
+
+# For periodic sidekiq jobs
+gem "sidekiq-cron"
+
+# For opening mails in development env
+gem "letter_opener", :group => :development
