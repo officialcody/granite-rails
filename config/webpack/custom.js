@@ -5,6 +5,7 @@ module.exports = {
       helpers: "src/helpers",
       common: "src/common",
       components: "src/components",
+      support: "support/sidekiq_helper"
     },
   },
 };
